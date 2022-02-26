@@ -1,10 +1,7 @@
 import sys
 import os
 
-# os.environ['QT_PREFERRED_BINDING'] = 'PySide2'
 from Qt import (QtCompat, QtWidgets, __binding__, __binding_version__, __qt_version__, __version__)
-
-# pyinstaller --onefile --hidden-import=Qt.py --hidden-import=PySide2.QtXml --hidden-import=PySide2.QtUiTools helloQt.py helloQT.spec --windowed
 
 class MainWindow(QtWidgets.QWidget):
 	# Load .ui file example, using setattr/getattr approach
@@ -31,21 +28,6 @@ class MainWindow(QtWidgets.QWidget):
 		return os.path.join(base_path, relative_path)
 
 	def uiLoader(self, uifile, baseInst=None):
-		"""
-		Qt.py/PyQtGraph compatible loading of Qt Designer .ui file, loaded into baseInst
-
-		Parameters
-		----------
-		uifile : .ui
-			QT Designer UI file
-		baseInst : _type_, optional
-			_description_, by default None
-
-		Returns
-		-------
-		_type_
-			_description_
-		"""
 		ui = QtCompat.loadUi(uifile)  # Qt.py mapped function
 		if not baseInst:
 			return ui
