@@ -1,6 +1,8 @@
 import sys
 import os
 
+import numpy as np
+
 # pyinstaller --onefile --hidden-import=Qt.py --hidden-import=PySide2.QtXml --hidden-import=PySide2.QtUiTools helloQt.py helloQT.spec --windowed
 # pyinstaller helloQtUI.spec
 
@@ -26,7 +28,9 @@ else:
 	print(PySide2.__version__)
 
 # os.environ['QT_PREFERRED_BINDING'] = 'PySide2'
-from Qt import (QtCompat, QtWidgets, __binding__, __binding_version__, __qt_version__, __version__)
+from Qt import (QtCompat, QtCore, QtWidgets, __binding__, __binding_version__, __qt_version__, __version__)
+
+import pyqtgraph as pg
 
 class MainWindow(QtWidgets.QWidget):
 	# Load .ui file example, using setattr/getattr approach
@@ -39,6 +43,11 @@ class MainWindow(QtWidgets.QWidget):
 		self.uiLoader(form, self)
 
 		self.lineEdit.setText(IMPORTED_FROM)
+
+		self.TIMER_PERIOD_MS = 0
+		self.timer = QtCore.QTimer()
+		self.timer.timeout.connect(self.UpdatePlot)
+		self.timer.start(self.TIMER_PERIOD_MS)
 
 	def resource_path(self, relative_path):
 		""" Get absolute path to resource, works for dev and for PyInstaller """
@@ -75,6 +84,27 @@ class MainWindow(QtWidgets.QWidget):
 				member is not 'staticMetaObject':
 					setattr(baseInst, member, getattr(ui, member))
 			return ui
+
+	def UpdatePlot(self):
+		N = 500
+		x = np.linspace(0, N - 1, N)
+		y1 = np.random.rand(N)
+		y2 = np.random.rand(N)
+
+		penRed = pg.mkPen(color=(255, 0, 0), width=2.0)
+		penGreen = pg.mkPen(color=(0, 0, 255), width=2.0)
+
+		self.plotWidget.showGrid(x = True, y = True, alpha = 0.75)
+		self.plotWidget.setLabel('bottom', 'Pixel Intensity (counts)')
+		self.plotWidget.addLegend()
+
+		self.plotWidget.enableAutoRange(axis='y')
+		self.plotWidget.setAutoVisible(y=True)
+
+		# self.PlotWidget.plot(x, y1)
+		self.plotWidget.clear()
+		self.plotWidget.plot(x, y1, pen = penRed, name = 'Plot 1')
+		self.plotWidget.plot(x, y2, pen = penGreen, name = 'Plot 2')
 
 if __name__ == '__main__':
 	print("__binding__:" + __binding__)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>166</width>
-    <height>184</height>
+    <width>188</width>
+    <height>323</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -59,6 +59,22 @@
        <item>
         <widget class="QLineEdit" name="lineEdit"/>
        </item>
+       <item>
+        <widget class="PlotWidget" name="plotWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -69,13 +85,21 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>166</width>
-     <height>22</height>
+     <width>188</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
