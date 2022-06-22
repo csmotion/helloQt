@@ -49,6 +49,9 @@ class MainWindow(QtWidgets.QWidget):
 		self.timer.timeout.connect(self.UpdatePlot)
 		self.timer.start(self.TIMER_PERIOD_MS)
 
+		# UNCOMMENTING addLegend() results in memory leak
+		# self.plotWidget.addLegend()
+
 	def resource_path(self, relative_path):
 		""" Get absolute path to resource, works for dev and for PyInstaller """
 		try:
@@ -96,12 +99,12 @@ class MainWindow(QtWidgets.QWidget):
 
 		self.plotWidget.showGrid(x = True, y = True, alpha = 0.75)
 		self.plotWidget.setLabel('bottom', 'Pixel Intensity (counts)')
-		self.plotWidget.addLegend()
+		# UNCOMMENTING addLegend() results in memory leak
+		# self.plotWidget.addLegend()
 
 		self.plotWidget.enableAutoRange(axis='y')
 		self.plotWidget.setAutoVisible(y=True)
 
-		# self.PlotWidget.plot(x, y1)
 		self.plotWidget.clear()
 		self.plotWidget.plot(x, y1, pen = penRed, name = 'Plot 1')
 		self.plotWidget.plot(x, y2, pen = penGreen, name = 'Plot 2')
